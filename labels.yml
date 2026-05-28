@@ -1,0 +1,63 @@
+- name: bug
+  color: d73a4a
+  description: Confirmed or plausible defect.
+- name: dependencies
+  color: 0366d6
+  description: Dependency update or dependency policy change.
+- name: documentation
+  color: 0075ca
+  description: Documentation-only change.
+- name: duplicate
+  color: cfd3d7
+  description: Duplicate issue or pull request.
+- name: enhancement
+  color: a2eeef
+  description: Feature or improvement request.
+- name: good first issue
+  color: 7057ff
+  description: Small scoped contribution task.
+- name: help wanted
+  color: 008672
+  description: External contribution is welcome.
+- name: invalid
+  color: e4e669
+  description: Not actionable or outside repository scope.
+- name: question
+  color: d876e3
+  description: Needs clarification or usage discussion.
+- name: security
+  color: b60205
+  description: Security hardening or vulnerability remediation.
+- name: ci
+  color: 5319e7
+  description: Continuous integration or automation.
+- name: github-actions
+  color: 5319e7
+  description: GitHub Actions dependency or workflow update.
+- name: python
+  color: 3572A5
+  description: Python package, tooling, or runtime change.
+- name: javascript
+  color: f1e05a
+  description: JavaScript or TypeScript dependency/tooling change.
+- name: docker
+  color: 0db7ed
+  description: Container image or Docker workflow change.
+- name: lockfile
+  color: ededed
+  description: Lockfile maintenance.
+- name: major
+  color: b60205
+  description: Major version update requiring explicit review.
+- name: requires-review
+  color: fbca04
+  description: Requires maintainer review before merge.
+- name: runtime
+  color: c5def5
+  description: Runtime, engine, or toolchain version change.
+- name: automerge
+  color: 0e8a16
+  description: Eligible for constrained automerge.
+- name: wontfix
+  color: ffffff
+  description: Intentionally not planned.

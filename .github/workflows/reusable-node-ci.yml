@@ -1,0 +1,32 @@
+name: Reusable Node CI
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        type: string
+        required: false
+        default: "24"
+      install-command:
+        type: string
+        required: false
+        default: "npm ci"
+      test-command:
+        type: string
+        required: false
+        default: "npm test --if-present"
+
+permissions:
+  contents: read
+
+jobs:
+  node-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.0.2
+      - uses: actions/setup-node@v6.4.0
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: npm
+      - run: ${{ inputs.install-command }}
+      - run: ${{ inputs.test-command }}

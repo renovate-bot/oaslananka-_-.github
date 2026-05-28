@@ -1,0 +1,32 @@
+name: Reusable Python CI
+
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        type: string
+        required: false
+        default: "3.13"
+      install-command:
+        type: string
+        required: false
+        default: "python -m pip install -U pip && python -m pip install -e ."
+      test-command:
+        type: string
+        required: false
+        default: "python -m pytest"
+
+permissions:
+  contents: read
+
+jobs:
+  python-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.0.2
+      - uses: actions/setup-python@v6.2.0
+        with:
+          python-version: ${{ inputs.python-version }}
+          cache: pip
+      - run: ${{ inputs.install-command }}
+      - run: ${{ inputs.test-command }}

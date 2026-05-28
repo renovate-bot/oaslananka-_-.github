@@ -1,0 +1,208 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Central Renovate policy for oaslananka-maintained repositories.",
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":semanticCommitTypeAll(chore)",
+    ":separateMultipleMajorReleases",
+    "group:recommended",
+    "helpers:pinGitHubActionDigestsToSemver"
+  ],
+  "timezone": "Europe/Istanbul",
+  "labels": [
+    "dependencies"
+  ],
+  "dependencyDashboardLabels": [
+    "dependencies"
+  ],
+  "dependencyDashboardTitle": "Dependency Dashboard",
+  "dependencyDashboardOSVVulnerabilitySummary": "unresolved",
+  "assignees": [
+    "oaslananka"
+  ],
+  "prHourlyLimit": 2,
+  "prConcurrentLimit": 8,
+  "branchConcurrentLimit": 8,
+  "commitHourlyLimit": 4,
+  "rangeStrategy": "bump",
+  "rebaseWhen": "conflicted",
+  "prBodyNotes": [
+    "This repository uses the shared Renovate policy from `oaslananka/.github`."
+  ],
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/.venv/**",
+    "**/venv/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/coverage/**"
+  ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": [
+      "before 6am on monday"
+    ],
+    "automerge": false,
+    "addLabels": [
+      "lockfile"
+    ]
+  },
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": [
+      "security"
+    ],
+    "prCreation": "immediate",
+    "vulnerabilityFixStrategy": "highest"
+  },
+  "osvVulnerabilityAlerts": true,
+  "packageRules": [
+    {
+      "description": "Require explicit approval for major version changes.",
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "dependencyDashboardApproval": true,
+      "addLabels": [
+        "major",
+        "requires-review"
+      ],
+      "prPriority": -5,
+      "automerge": false
+    },
+    {
+      "description": "Apply an npm release-age guard to reduce npm unpublish and supply-chain churn.",
+      "matchDatasources": [
+        "npm"
+      ],
+      "minimumReleaseAge": "3 days",
+      "prCreation": "not-pending",
+      "internalChecksFilter": "strict",
+      "addLabels": [
+        "javascript"
+      ]
+    },
+    {
+      "description": "Apply a PyPI release-age guard for Python repositories.",
+      "matchDatasources": [
+        "pypi"
+      ],
+      "minimumReleaseAge": "3 days",
+      "prCreation": "not-pending",
+      "internalChecksFilter": "strict",
+      "addLabels": [
+        "python"
+      ]
+    },
+    {
+      "description": "Apply a release-age guard to GitHub Actions and pin action references.",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "minimumReleaseAge": "3 days",
+      "prCreation": "not-pending",
+      "internalChecksFilter": "strict",
+      "pinDigests": true,
+      "addLabels": [
+        "ci",
+        "github-actions"
+      ]
+    },
+    {
+      "description": "Group non-major GitHub Actions updates to keep CI maintenance compact.",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
+      "groupName": "GitHub Actions",
+      "groupSlug": "github-actions"
+    },
+    {
+      "description": "Group TypeScript linting and formatting toolchain updates.",
+      "matchPackageNames": [
+        "typescript",
+        "ts-node",
+        "tsx",
+        "eslint",
+        "eslint-*",
+        "@eslint/**",
+        "@typescript-eslint/**",
+        "typescript-eslint",
+        "prettier",
+        "@types/**"
+      ],
+      "groupName": "TypeScript quality toolchain",
+      "groupSlug": "typescript-quality-toolchain",
+      "addLabels": [
+        "javascript"
+      ]
+    },
+    {
+      "description": "Group Python quality and test tooling updates.",
+      "matchPackageNames": [
+        "pytest",
+        "pytest-*",
+        "ruff",
+        "mypy",
+        "black",
+        "isort",
+        "coverage",
+        "pre-commit"
+      ],
+      "groupName": "Python quality toolchain",
+      "groupSlug": "python-quality-toolchain",
+      "addLabels": [
+        "python"
+      ]
+    },
+    {
+      "description": "Group container image digest and non-major image updates.",
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
+      "groupName": "Container images",
+      "groupSlug": "container-images",
+      "minimumReleaseAge": "3 days",
+      "prCreation": "not-pending",
+      "internalChecksFilter": "strict",
+      "addLabels": [
+        "docker"
+      ]
+    },
+    {
+      "description": "Automerge digest-only updates after branch checks pass; no broad package automerge.",
+      "matchUpdateTypes": [
+        "digest"
+      ],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": false,
+      "addLabels": [
+        "automerge"
+      ]
+    },
+    {
+      "description": "Keep Node runtime jumps explicit instead of silently changing supported engines.",
+      "matchPackageNames": [
+        "node",
+        "@types/node"
+      ],
+      "dependencyDashboardApproval": true,
+      "addLabels": [
+        "runtime",
+        "requires-review"
+      ]
+    }
+  ]
+}

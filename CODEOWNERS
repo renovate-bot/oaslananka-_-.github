@@ -1,0 +1,10 @@
+# Repository ownership for account-level defaults.
+* @oaslananka
+
+# Sensitive automation and policy areas.
+/.github/workflows/ @oaslananka
+/renovate-config.json @oaslananka
+/default.json @oaslananka
+/config.js @oaslananka
+/scripts/ @oaslananka
+/SECURITY.md @oaslananka

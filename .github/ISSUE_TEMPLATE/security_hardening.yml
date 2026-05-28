@@ -1,0 +1,22 @@
+name: Security hardening
+description: Non-sensitive security improvement proposal.
+title: "security: "
+labels: [security]
+body:
+  - type: markdown
+    attributes:
+      value: Do not include exploit details for active vulnerabilities in public issues.
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: Component, workflow, dependency, or control affected.
+    validations:
+      required: true
+  - type: textarea
+    id: change
+    attributes:
+      label: Proposed change
+      description: Describe the hardening change and compatibility impact.
+    validations:
+      required: true

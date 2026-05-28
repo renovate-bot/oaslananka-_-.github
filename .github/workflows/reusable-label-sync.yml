@@ -1,0 +1,48 @@
+name: Reusable label sync
+
+on:
+  workflow_call:
+    secrets:
+      token:
+        required: false
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  labels:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6.0.2
+      - name: Sync labels from labels.yml
+        env:
+          GH_TOKEN: ${{ secrets.token || github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          python - <<'PY'
+          from __future__ import annotations
+          import os
+          import re
+          import subprocess
+          from pathlib import Path
+
+          text = Path('labels.yml').read_text(encoding='utf-8')
+          blocks = re.split(r'(?m)^- name: ', text)
+          for block in blocks[1:]:
+              lines = block.splitlines()
+              name = lines[0].strip()
+              color = ''
+              description = ''
+              for line in lines[1:]:
+                  if line.startswith('  color:'):
+                      color = line.split(':', 1)[1].strip().strip('"')
+                  if line.startswith('  description:'):
+                      description = line.split(':', 1)[1].strip().strip('"')
+              if not name or not color:
+                  raise SystemExit(f'invalid label block: {block!r}')
+              subprocess.run(
+                  ['gh', 'label', 'create', name, '--repo', os.environ['GH_REPO'], '--color', color, '--description', description, '--force'],
+                  check=True,
+              )
+          PY
